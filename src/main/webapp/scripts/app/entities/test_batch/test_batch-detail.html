@@ -1,0 +1,104 @@
+
+<div>
+	<h2>
+		<span>Test_batch</span> {{test_batch.id}}
+	</h2>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Field</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><span>Test_objective</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.test_objective}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Test_nomenclature</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.test_nomenclature}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>No_of_tests_in_batch</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.no_of_tests_in_batch}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Proposed_date_time</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.proposed_date_time}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Calibration_criteria</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.calibration_criteria}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Expected_test_outcome</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.expected_test_outcome}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Is_ambient</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.is_ambient}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Non_ambient_temperature</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.non_ambient_temperature}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>No_of_parameters</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.no_of_parameters}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Burning_time</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.burning_time}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Sensor_layout</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.sensor_layout}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Predicted_data</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.predicted_data}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>Data_acquisition</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.data_acquisition}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>requisition</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.requisition.id}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>burning_time_uom</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.burning_time_uom.id}}" readonly></td>
+				</tr>
+				<tr>
+					<td><span>non_ambient_temperature_uom</span></td>
+					<td><input type="text" class="input-sm form-control"
+						value="{{test_batch.non_ambient_temperature_uom.id}}" readonly>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<button type="submit" ui-sref="test_batch" class="btn btn-info">
+		<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>
+			Back</span>
+	</button>
+</div>

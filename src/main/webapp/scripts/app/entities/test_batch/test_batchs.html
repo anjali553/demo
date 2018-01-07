@@ -1,0 +1,560 @@
+<div>
+
+	<h2>
+		<span>Test Batches</span>
+		<button type="submit" ng-click="viewAll()"
+			class="btn btn-primary pull-right">
+			<span class="glyphicon glyphicon-eye"></span>&nbsp;<span>View/Edit
+				</span>
+		</button>
+	</h2>
+
+	<form name="editForm" role="form" novalidate ng-submit="save()">
+
+		<div class="modal-header">
+			<!-- <h4 class="modal-title" id="myTest_batchLabel">Create or edit a
+				Test Batch {{test_batch.id}} with Requisition id {{requisitionId}}</h4> -->
+		</div>
+		<h2>
+			<alert ng-repeat="alert in alerts" type="{{alert.type}}"
+				close="closeAlert()" dismiss-on-timeout="2000">
+			<h4>
+				<p class="text-center">{{alert.msg}}</p>
+			</h4>
+			</alert>
+		</h2>
+		<div class="panel panel-primary">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title pull-left">Test Batch</h3>
+			</div>
+			<div class="list-group">
+				<div class="list-group-item">
+					<div class="modal-body">
+
+						<div class="row">
+							<div class="col-sm-4">
+								<label>Data Acquisition :</label>
+
+								<div class="radio">
+									<label class="radio-inline"> <input type="radio"
+										name="data_acquisition" ng-model="test_batch.data_acquisition"
+										ng-init="test_batch.data_acquisition=true" ng-value="true">Required
+									</label> <label class="radio-inline"> <input type="radio"
+										name="data_acquisition" ng-model="test_batch.data_acquisition"
+										ng-value="false">Not Required
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<label>Video Acquisition :</label>
+								<div class="radio">
+									<label class="radio-inline"> <input type="radio"
+										name="video_acquisition"
+										ng-model="test_batch.video_acquisition"
+										ng-init="test_batch.video_acquisition = true" ng-value="true">Required
+									</label> <label class="radio-inline"> <input type="radio"
+										name="video_acquisition"
+										ng-model="test_batch.video_acquisition" ng-value="false">Not
+										Required
+									</label>
+								</div>
+							</div>
+						</div>
+						<br>
+
+						<div class="row">
+							<div class="col-sm-4">
+								<label>Test Nomenclature</label> <input type="text"
+									class="form-control" name="test_nomenclature"
+									ng-model="test_batch.test_nomenclature" />
+							</div>
+							<div class="col-sm-4">
+								<label>Test Objective</label> <input type="text"
+									class="form-control" name="test_objective"
+									ng-model="test_batch.test_objective" />
+							</div>
+							<div class="col-sm-4">
+								<label>Proposed Date & Time</label>
+								<div class="dropdown">
+									<a class="dropdown-toggle" id="dropdown2" role="button"
+										data-toggle="dropdown" data-target="#" href="#">
+										<div class="input-group">
+											<input type="text" class="form-control" min-date="minDate" ng-required="true" 
+												data-ng-model="test_batch.proposed_date_time"><span
+												class="input-group-addon"><i
+												class="glyphicon glyphicon-calendar"></i></span>
+										</div>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+										<datetimepicker data-ng-model="test_batch.proposed_date_time"
+											min-date="minDate"
+											data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
+									</ul>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-sm-4">
+								<label>No of Tests In This Batch</label> <input type="text"
+									ng-disabled="noOfTestsDisabled" class="form-control"
+									name="no_of_tests_in_batch" ng-change="validation()"
+									ng-model="test_batch.no_of_tests_in_batch" />
+								<div ng-model="allowedTest">
+									<font color="red">{{allowedTest}}</font>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<label>Burn Time</label> <input type="number"
+									class="form-control" name="burning_time"
+									ng-model="test_batch.burning_time" min="1">
+							</div>
+							<div class="col-sm-4">
+								<label>Unit</label> <select class="form-control"
+									name="burning_time_uom"
+									ng-model="test_batch.burning_time_uom.id"
+									ng-init="test_batch.burning_time_uom.id = 7"
+									ng-options="uom.id as uom.value for uom in uoms |filter:({parameter_master :{id: 8}})">
+								</select>
+							</div>
+						</div>
+						<br>
+
+						<div class="row">
+							<div class="col-sm-4">
+								<label>Test Condition</label>
+								<div class="radio">
+									<label class="radio-inline"> <input type="radio"
+										name="is_ambient" ng-model="test_batch.is_ambient"
+										ng-value="false" ng-change="clearTemp()">Ambient
+									</label> <label class="radio-inline"> <input type="radio"
+										ng-init="test_batch.is_ambient=false" name="conditioned"
+										ng-model="test_batch.is_ambient" ng-value="true">Conditioned
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- <p ng-hide="test_batch.is_ambient == 'false'"> -->
+								<label>Temperature</label> <input type="number"
+									class="form-control" name="non_ambient_temperature"
+									ng-model="test_batch.non_ambient_temperature"
+									ng-required="test_batch.is_ambient" ng-change="validTemp()">
+								<div
+									ng-show="editForm.non_ambient_temperature.$invalid || editForm.non_ambient_temperature.$dirty || editForm.non_ambient_temperature.$untouched || editForm.non_ambient_temperature.$touched"
+									class="has-error">
+									<p class="help-block"
+										ng-show="editForm.non_ambient_temperature.$error.required">This
+										field is required.</p>
+									<p class="help-block"
+										ng-show="editForm.non_ambient_temperature.$error.number">This
+										Field should be a number</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<!--  <p ng-hide="test_batch.is_ambient == 'false'"> -->
+								<label>Unit</label> <select class="form-control"
+									name="non_ambient_temperature_uom"
+									ng-init="test_batch.non_ambient_temperature_uom.id=3"
+									ng-model="test_batch.non_ambient_temperature_uom.id"
+									ng-options="uom.id as uom.value for uom in uoms |filter:({parameter_master :{id: 5}}):true">
+								</select>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-sm-4">
+								<label>Sensor Location Diagram</label>
+								<fieldset>
+									<div ngf-drop="" ngf-select=""
+										ng-model="test_batch.sensor_layout1"
+										ng-model-rejected="rejFiles"
+										ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}"
+										class="drop-box" ngf-multiple="true" ngf-allow-dir="true"
+										ngf-accept="'*'" ngf-drop-available="dropAvailable">
+										<div ng-hide="dropAvailable">File Drop not available</div>
+										<div ng-show="dropAvailable">Drop Files Here</div>
+										<div>Click to select a file</div>
+									</div>
+								</fieldset>
+
+								<ul style="clear: both" ng-show="rejFiles.length > 0"
+									class="response">
+									<li class="sel-file" ng-repeat="f in rejFiles">Rejected
+										file: {{f.name}} - size: {{f.size}}B - type: {{f.type}}</li>
+								</ul>
+								<ul style="clear: both"
+									ng-show="test_batch.sensor_layout1.length > 0" class="response">
+									<li class="sel-file" ng-repeat="f in test_batch.sensor_layout1"><img
+										ng-show="f.type.indexOf('image') > -1" ngf-src="f"
+										class="thumb" ngf-accept="'*'"> <span class="progress"
+										ng-show="f.progress >= 0">
+											<div style="width: {{f.progress">{{f.progress}}%</div>
+									</span>
+										<button class="button"
+											ng-click="f.upload.abort();f.upload.aborted=true"
+											ng-show="f.upload != null && f.progress < 100 && !f.upload.aborted">Abort
+										</button> {{f.name}} - size: {{f.size}}B - type: {{f.type}} <a
+										ng-show="f.result" href="javascript:void(0)"
+										ng-click="f.showDetail = !f.showDetail">details</a>
+
+										<div ng-show="f.showDetail">
+											<br />
+
+											<div data-ng-show="f.result.result == null">{{f.result}}</div>
+											<ul>
+												<li ng-repeat="item in f.result.result">
+													<div data-ng-show="item.name">file name:
+														{{item.name}}</div>
+													<div data-ng-show="item.fieldName">name:
+														{{item.fieldName}}</div>
+													<div data-ng-show="item.size">size on the serve:
+														{{item.size}}</div>
+													<div data-ng-show="item.value">value: {{item.value}}</div>
+												</li>
+											</ul>
+											<div data-ng-show="f.result.requestHeaders" class="reqh">request
+												headers: {{f.result.requestHeaders}}</div>
+										</div></li>
+								</ul>
+							</div>
+							<div class="col-sm-4">
+
+								<label>Predicted Data</label>
+								<!-- <input type="text"
+								class="form-control" name="expected_test_outcome"
+								ng-model="test_batch.expected_test_outcome"> -->
+
+								<fieldset>
+									<div ngf-drop="" ngf-select=""
+										ng-model="test_batch.predicted_data1"
+										ng-model-rejected="rejFiles1"
+										ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}"
+										class="drop-box" ngf-multiple="true" ngf-allow-dir="true"
+										ngf-accept="'*'" ngf-drop-available="dropAvailable">
+										<div ng-hide="dropAvailable">File Drop not available</div>
+										<div ng-show="dropAvailable">Drop Files Here</div>
+										<div>Click to select a file</div>
+									</div>
+								</fieldset>
+
+								<ul style="clear: both" ng-show="rejFiles1.length > 0"
+									class="response">
+									<li class="sel-file" ng-repeat="f in rejFiles1">Rejected
+										file: {{f.name}} - size: {{f.size}}B - type: {{f.type}}</li>
+								</ul>
+								<ul style="clear: both"
+									ng-show="test_batch.predicted_data1.length > 0"
+									class="response">
+									<li class="sel-file"
+										ng-repeat="f in test_batch.predicted_data1"><img
+										ng-show="f.type.indexOf('image') > -1" ngf-src="f"
+										class="thumb" ngf-accept="'image/*'"> <span
+										class="progress" ng-show="f.progress >= 0">
+											<div style="width: {{f.progress">{{f.progress}}%</div>
+									</span>
+										<button class="button"
+											ng-click="f.upload.abort();f.upload.aborted=true"
+											ng-show="f.upload != null && f.progress < 100 && !f.upload.aborted">Abort
+										</button> {{f.name}} - size: {{f.size}}B - type: {{f.type}} <a
+										ng-show="f.result" href="javascript:void(0)"
+										ng-click="f.showDetail = !f.showDetail">details</a>
+
+										<div ng-show="f.showDetail">
+											<br />
+
+											<div data-ng-show="f.result.result == null">{{f.result}}</div>
+											<ul>
+												<li ng-repeat="item in f.result.result">
+													<div data-ng-show="item.name">file name:
+														{{item.name}}</div>
+													<div data-ng-show="item.fieldName">name:
+														{{item.fieldName}}</div>
+													<div data-ng-show="item.size">size on the serve:
+														{{item.size}}</div>
+													<div data-ng-show="item.value">value: {{item.value}}</div>
+												</li>
+											</ul>
+											<div data-ng-show="f.result.requestHeaders" class="reqh">request
+												headers: {{f.result.requestHeaders}}</div>
+										</div></li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<div class="pull-right">
+
+							<button type="button" class="btn btn-info" ng-click="goBack()">
+								<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>Back
+									to Requisition</span>
+							</button>
+							<button type="button" class="btn btn-warning"
+								ui-sref="requisitionDetail({id:requisitionId,clonereqid:clonereqid})">
+								<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Back
+							</button>
+
+							<!-- <button type="submit" class="btn btn-primary"							
+								ui-sref="test_parameterForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})"
+								ng-disabled="editForm.$dirty" ng-hide="test_batch.data_acquisition == false">
+								<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span>
+									Create Test Parameters</span>
+							</button>
+							<button type="submit" class="btn btn-primary"
+					       ui-sref="video_detailsForTestBatch({testBatchId:testBatchId,requisitionId:requisition.id})"
+					       ng-hide="test_batch.video_acquisition == true && test_batch.data_acquisition == true || test_batch.data_acquisition == true || test_batch.video_acquisition == false">					   
+					     <span class="glyphicon glyphicon-flash"></span>&nbsp;<span>
+						Create Video Details</span>
+				</button> -->
+							<!-- <button type="submit" class="btn btn-primary"
+				  ui-sref="video_detailsForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})"
+				  ng-hide="test_batch.video_acquisition == false">
+				  <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</span>
+				       Create Video Details</span>
+				 </button>
+				 <button type="submit" class="btn btn-primary"
+				  ui-sref="data_presentation_requirementsForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})"
+				  ng-hide="!test_batch.data_acquisition == false">
+				  <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</span>
+				       Create Data Presentation Requirements</span>
+				 </button> -->
+							<button type="button" class="btn btn-danger" data-dismiss="modal"
+								ng-click="clear()">
+								<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Clear</span>
+							</button>
+							<button type="submit" class="btn btn-primary"
+								ng-disabled="editForm.$invalid || saveDisabled"><!-- || test_batchs.length >= requisition.no_of_test_batches -->
+								<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save & Next</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="modal fade" id="deleteTest_batchConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="deleteForm" ng-submit="confirmDelete(test_batch.id)">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" ng-click="clear()">Close</button>
+						<h4 class="modal-title">Confirm delete operation</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete this Test Batch?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							ng-click="clear()">
+							<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						</button>
+						<button type="submit" ng-disabled="deleteForm.$invalid"
+							class="btn btn-danger">
+							<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="viewTest_batchModal" tabindex="-1"
+		role="dialog" aria-labelledby="myTest_batchLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" >Close</button>
+					<h4 class="modal-title" id="myTest_batchLabel">View Test Batch</h4>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Requisition No.</th>
+									<th>Test Nomenclature</th>
+									<th>Test Objective</th>
+									<th>Proposed Date</th>
+									<th>No. Of Tests In This Batch</th>
+									<!-- <th>No. Of Parameters</th> -->
+									<!-- <th>Calibration criteria</th> -->
+									<th>Is ambient</th>
+									<th>Non ambient temperature</th>
+									<!-- <th>Unit</th> -->
+									<th>Burn Time</th>
+									<!-- <th>Unit</th> -->
+									<th>Data Acquisition</th>
+									<th>Video Acquisition</th>
+									<th>Sensor Location Diagram</th>
+									<th>Predicted Data</th>
+
+									<th></th>
+								</tr>
+							</thead>
+							<tbody infinite-scroll="loadPage(page + 1)"
+								infinite-scroll-disabled="scrollDisabled">
+								<tr ng-repeat="test_batch in test_batchs">
+									<!-- <td><a ui-sref="test_batchDetail({id:test_batch.id})">{{test_batch.id}}</a></td> -->
+									<td>{{$index+1}}</td>
+									<td>{{test_batch.requisition.requisition_no}}</td>
+									<td>{{test_batch.test_nomenclature}}</td>
+									<td>{{test_batch.test_objective}}</td>
+									<td>{{test_batch.proposed_date_time}}</td>
+									<td>{{test_batch.no_of_tests_in_batch}}</td>
+									<!--<td>{{test_batch.no_of_parameters}}</td>
+									<td>{{test_batch.calibration_criteria}}</td> -->
+									<td>{{test_batch.is_ambient?'Conditioned':'Ambient'}}</td>
+									<td ng-if="test_batch.is_ambient ==  true">
+										{{test_batch.non_ambient_temperature > 0 ?
+										'+':''}}{{test_batch.non_ambient_temperature}}{{test_batch.non_ambient_temperature_uom.value}}</td>
+									<td ng-if="test_batch.is_ambient == false">
+										{{test_batch.non_ambient_temperature}}{{test_batch.non_ambient_temperature_uom.value}}</td>
+									<!-- <td>{{test_batch.non_ambient_temperature_uom.value}}</td> -->
+									<td>{{test_batch.burning_time}}&nbsp;&nbsp;{{test_batch.burning_time_uom.value}}</td>
+									<!-- <td>{{test_batch.burning_time_uom.value}}</td> -->
+									<td>{{test_batch.data_acquisition?'Required':'Not
+										Required'}}</td>
+									<td>{{test_batch.video_acquisition?'Required':'Not
+										Required'}}</td>
+									<td>
+										<div ng-hide="test_batch.sensor_layout === ''">
+											<a href="{{test_batch.sensor_layout}}">Download</a>&nbsp;<span
+												class="glyphicon glyphicon-download"></span>
+										</div>
+									</td>
+									<td>
+										<div ng-hide="test_batch.predicted_data === ''">
+											<a href="{{test_batch.predicted_data}}">Download</a>&nbsp;<span
+												class="glyphicon glyphicon-download"></span>
+										</div>
+									</td>
+
+									<td>
+										<button type="submit"
+											ng-disabled="test_batch.requisition.status !== 0"
+											ng-click="showUpdate(test_batch.id)"
+											class="btn btn-primary btn-sm">
+											<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span>
+												Edit</span>
+										</button>
+									</td>
+									<td>
+										<button type="submit"
+											ng-disabled="test_batch.requisition.status !== 0"
+											ng-click="delete(test_batch.id)"
+											class="btn btn-danger btn-sm">
+											<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>
+												Delete</span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+		<div class="modal fade" id="viewTest_batchModalTestBatch" tabindex="-1"
+		role="dialog" aria-labelledby="myTest_batchLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" >Close</button>
+					<h4 class="modal-title" id="myTest_batchLabel">View/Edit</h4>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Requisition No.</th>
+									<th>Test Nomenclature</th>
+									<th>Test Objective</th>
+									<th>Proposed Date</th>
+									<th>No. Of Tests In This Batch</th>
+									<th>Is ambient</th>
+									<th>Non ambient temperature</th>
+									<th>Burn Time</th>
+									<th>Data Acquisition</th>
+									<th>Video Acquisition</th>
+									<th>Sensor Location Diagram</th>
+									<th>Predicted Data</th>
+
+									<th></th>
+								</tr>
+							</thead>
+							<tbody infinite-scroll="loadPage(page + 1)"
+								infinite-scroll-disabled="scrollDisabled">
+								<tr ng-repeat="test_batch in test_batchess">
+									
+									<td>{{$index+1}}</td>
+									<td>{{test_batch.requisition.requisition_no}}</td>
+									<td>{{test_batch.test_nomenclature}}</td>
+									<td>{{test_batch.test_objective}}</td>
+									<td>{{test_batch.proposed_date_time}}</td>
+									<td>{{test_batch.no_of_tests_in_batch}}</td>
+									<td>{{test_batch.is_ambient?'Conditioned':'Ambient'}}</td>
+									<td ng-if="test_batch.is_ambient ==  true">
+										{{test_batch.non_ambient_temperature > 0 ?
+										'+':''}}{{test_batch.non_ambient_temperature}}{{test_batch.non_ambient_temperature_uom.value}}</td>
+									<td ng-if="test_batch.is_ambient == false">
+										{{test_batch.non_ambient_temperature}}{{test_batch.non_ambient_temperature_uom.value}}</td>
+									<td>{{test_batch.burning_time}}&nbsp;&nbsp;{{test_batch.burning_time_uom.value}}</td>
+									<td>{{test_batch.data_acquisition?'Required':'Not
+										Required'}}</td>
+									<td>{{test_batch.video_acquisition?'Required':'Not
+										Required'}}</td>
+									<td>
+										<div ng-hide="test_batch.sensor_layout === ''">
+											<a href="{{test_batch.sensor_layout}}">Download</a>&nbsp;<span
+												class="glyphicon glyphicon-download"></span>
+										</div>
+									</td>
+									<td>
+										<div ng-hide="test_batch.predicted_data === ''">
+											<a href="{{test_batch.predicted_data}}">Download</a>&nbsp;<span
+												class="glyphicon glyphicon-download"></span>
+										</div>
+									</td>
+
+									<td>
+										<button type="submit"
+											ng-disabled="test_batch.requisition.status !== 0"
+											ng-click="showUpdate(test_batch.id)"
+											class="btn btn-primary btn-sm">
+											<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span>
+												Edit</span>
+										</button>
+									</td>
+									<td>
+										<button type="submit"
+											ng-disabled="test_batch.requisition.status !== 0"
+											ng-click="delete(test_batch.id)"
+											class="btn btn-danger btn-sm">
+											<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>
+												Delete</span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+</div>

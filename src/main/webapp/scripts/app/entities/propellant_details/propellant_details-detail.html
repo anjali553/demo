@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span>Propellant_details</span> {{propellant_details.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span>Weight</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{propellant_details.weight}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>test_batch</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{propellant_details.test_batch.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>propellant_type_master</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{propellant_details.propellant_type_master.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>weight_uom</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{propellant_details.weight_uom.id}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="propellant_details"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

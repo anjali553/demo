@@ -1,0 +1,386 @@
+<div>
+
+	<h2>
+		<span>Propellant Type Masters</span>
+		<button type="submit" ng-click="viewAll()"
+			class="btn btn-primary pull-right">
+			<span class="glyphicon glyphicon-eye"></span>&nbsp;<span>View
+			Propellant type master</span>
+		</button>
+	</h2>
+	
+	<form name="editForm" role="form" novalidate ng-submit="save()">
+		<div class="modal-header">
+			<h4 class="modal-title" id="myPropellant_type_mastersLabel">Create or
+				edit a Propellant Details with Requisition id {{requisitionId}} and
+				Test Batch id {{testBatchId}} </h4>
+		</div>
+		<h4 class="modal-title" id="myPropellant_detailsLabel"></h4>
+	
+	<div class="modal-body">
+			<div class="row">
+					<div class="col-sm-4">
+					<label>Propellant Name</label> <input type="text" class="form-control"
+						name="propellant_name" ng-model="propellant_type_master.propellant_name" required>
+						
+					<div ng-show="editForm.propellant_name.$invalid && editForm.propellant_name.$dirty || editForm.propellant_name.$touched" class="has-error">
+								<p class="help-block"
+									ng-show="editForm.propellant_name.$error.required">This
+									field is required.</p>
+					</div>
+				</div>
+				</div>
+			</div>		
+						
+			
+	<div class="modal-footer">
+			<div class="pull-right">
+				<button type="button" class="btn btn-info" ng-click="goBack()">
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>Back to propellant details
+						</span>
+						<!-- ui-sref=
+				"propellant_detailsForTestBatch({testBatchId:testBatchId,requisitionId:requisition.id})"> -->
+				</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal"
+					ng-click="clear()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+				</button>
+				<button type="submit" ng-disabled="editForm.$invalid"
+					class="btn btn-primary">
+					<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+				</button>
+			</div>
+		</div>
+	</form>		
+			
+	<div class="modal fade" id="deletePropellant_type_masterConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="deleteForm" ng-submit="confirmDelete(propellant_type_master.id)">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" ng-click="clear()">&times;</button>
+						<h4 class="modal-title">Confirm delete operation</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete this Propellant type Master Details?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							ng-click="clear()">
+							<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						</button>
+						<button type="submit" ng-disabled="deleteForm.$invalid"
+							class="btn btn-danger">
+							<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="viewPropellant_type_masterModal" tabindex="-1"
+		role="dialog" aria-labelledby="myMotor_detailsLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" ng-click="clear()">Close</button>
+					<h4 class="modal-title" id="myPropellant_type_mastersLabel">View
+						Propellant type master</h4>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Sr. No.</th>
+									<th>Propellant name</th> 
+									<th></th>
+								</tr>
+							</thead>
+							<tbody infinite-scroll="loadPage(page + 1)"
+								infinite-scroll-disabled="links['last'] == page">
+								<tr ng-repeat="propellant_type_master in propellant_type_masters">
+									<td>{{$index+1}}</td>
+									<td>{{propellant_type_master.propellant_name}}</td>
+									<td>
+										<button type="submit" ng-click="showUpdate(propellant_type_master.id)"
+											class="btn btn-primary btn-sm">
+											<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span>
+												Edit</span>
+										</button>
+										<button type="submit" ng-click="delete(propellant_type_master.id)"
+											class="btn btn-danger btn-sm">
+											<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>
+												Delete</span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+			
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!-- <div>
+
+	<h2>
+		<span>Propellant Type Masters</span>
+		<button type="submit" ng-click="viewAll()"
+			class="btn btn-primary pull-right">
+			<span class="glyphicon glyphicon-eye"></span>&nbsp;<span>View
+			Propellant type master</span>
+		</button>
+	</h2>
+	
+	<form name="editForm" role="form" novalidate ng-submit="save()">
+		<div class="modal-header">
+			<h4 class="modal-title" id="myPropellant_type_mastersLabel">Create or edit
+				a Propellant type master details </h4>
+		</div>
+	
+	<div class="modal-body">
+			<div class="row">
+					<div class="col-sm-4">
+					<label>Propellant Name</label> <input type="text" class="form-control"
+						name="propellant_name" ng-model="propellant_type_master.propellant_name" required>
+						
+					<div ng-show="editForm.propellant_name.$invalid && editForm.propellant_name.$dirty || editForm.propellant_name.$touched" class="has-error">
+								<p class="help-block"
+									ng-show="editForm.propellant_name.$error.required">This
+									field is required.</p>
+					</div>
+				</div>
+				</div>
+			</div>		
+						
+						
+			
+			
+	<div class="modal-footer">
+			<div class="pull-right">
+				<button type="button" class="btn btn-info" ng-click="goBackToPropellant()"><ui-sref=
+				"propellant_detailsForTestBatch({testBatchId:testBatchId,requisitionId:requisition.id})>
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>Back to propellant details
+						</span>
+				</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal"
+					ng-click="clear()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+				</button>
+				<button type="submit" ng-disabled="editForm.$invalid"
+					class="btn btn-primary">
+					<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+				</button>
+			</div>
+		</div>
+	</form>		
+			
+	<div class="modal fade" id="deletePropellant_type_masterConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="deleteForm" ng-submit="confirmDelete(propellant_type_master.id)">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" ng-click="clear()">&times;</button>
+						<h4 class="modal-title">Confirm delete operation</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete this Propellant type Master Details?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							ng-click="clear()">
+							<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						</button>
+						<button type="submit" ng-disabled="deleteForm.$invalid"
+							class="btn btn-danger">
+							<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="viewPropellant_type_masterModal" tabindex="-1"
+		role="dialog" aria-labelledby="myMotor_detailsLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" ng-click="clear()">Close</button>
+					<h4 class="modal-title" id="myPropellant_type_mastersLabel">View
+						Propellant type master</h4>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Sr. No.</th>
+									<th>Propellant name</th> 
+									<th></th>
+								</tr>
+							</thead>
+							<tbody infinite-scroll="loadPage(page + 1)"
+								infinite-scroll-disabled="links['last'] == page">
+								<tr ng-repeat="propellant_type_master in propellant_type_masters">
+									<td>{{$index+1}}</td>
+									<td>{{propellant_type_master.propellant_name}}</td>
+									<td>
+										<button type="submit" ng-click="showUpdate(propellant_type_master.id)"
+											class="btn btn-primary btn-sm">
+											<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span>
+												Edit</span>
+										</button>
+										<button type="submit" ng-click="delete(propellant_type_master.id)"
+											class="btn btn-danger btn-sm">
+											<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>
+												Delete</span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+			
+	<!-- <div>
+
+    <h2>propellant_type_masters</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#savepropellant_type_masterModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span>Create a new propellant_type_master</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="savepropellant_type_masterModal" tabindex="-1" role="dialog" aria-labelledby="mypropellant_type_masterLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="mypropellant_type_masterLabel">Create or edit a propellant_type_master</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="propellant_type_master.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Propellant_name</label>
+                            <input type="text" class="form-control" name="propellant_name"
+                                   ng-model="propellant_type_master.propellant_name">
+
+                            <div ng-show="editForm.propellant_name.$invalid">
+                              <p class="help-block" 
+                               ng-show="editForm.propellant_name.$error.required">This field is required.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deletepropellant_type_masterConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(propellant_type_master.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this propellant_type_master?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Propellant_name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+                <tr ng-repeat="propellant_type_master in propellant_type_masters">
+                    <td><a ui-sref="propellant_type_masterDetail({id:propellant_type_master.id})">{{propellant_type_master.id}}</a></td>
+                    <td>{{propellant_type_master.propellant_name}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="propellant_type_masterDetail({id:propellant_type_master.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="showUpdate(propellant_type_master.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(propellant_type_master.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+ --> 

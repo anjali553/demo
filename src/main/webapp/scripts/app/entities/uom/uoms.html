@@ -1,0 +1,132 @@
+<div>
+
+	<h2>
+		<span>UOM</span>
+		<button type="submit" ng-click="viewAll()"
+			class="btn btn-primary pull-right">
+			<span class="glyphicon glyphicon-eye"></span>&nbsp;<span>View
+				UOM</span>
+		</button>
+	</h2>
+
+	<!-- <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveUomModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span>Create a new Uom</span>
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+	<form name="editForm" role="form" novalidate ng-submit="save()">
+		<div class="modal-header">
+			<h4 class="modal-title" id="myUomLabel">Create or edit a Uom</h4>
+		</div>
+
+		<div class="modal-body">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<label>ID</label> <input type="text" class="form-control" name="id"
+						ng-model="uom.id" readonly>
+				</div>
+				<div class="col-sm-4">
+					<label>parameter master</label> <select class="form-control"
+						name="parameter_master" ng-model="uom.parameter_master.id"
+						ng-options="parameter_master.id as parameter_master.parameter_name for parameter_master in parameter_masters">
+					</select>
+				</div>
+				<div class="col-sm-4">
+					<label>Value</label> <input type="text" class="form-control"
+						name="value" ng-model="uom.value">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+		
+				<button class="btn btn-info" ui-sref="backToAdmin">
+					<span class="glyphicon glyphicon-arrow-left"></span> <span>Back</span>
+				</button>
+       
+			<button type="button" class="btn btn-default" data-dismiss="modal"
+				ng-click="clear()">
+				<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+			</button>
+			<button type="submit" ng-disabled="editForm.$invalid"
+				class="btn btn-primary">
+				<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+			</button>
+			
+		</div>
+	</form>
+
+
+
+	<div class="modal fade" id="deleteUomConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="deleteForm" ng-submit="confirmDelete(uom.id)">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" ng-click="clear()">&times;</button>
+						<h4 class="modal-title">Confirm delete operation</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete this Uom?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							ng-click="clear()">
+							<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						</button>
+						<button type="submit" ng-disabled="deleteForm.$invalid"
+							class="btn btn-danger">
+							<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="viewUomModal" tabindex="-1" role="dialog"
+		aria-labelledby="myUomLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>parameter master</th>
+								<th>Value</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody infinite-scroll="loadPage(page + 1)"
+							infinite-scroll-disabled="links['last'] == page">
+							<tr ng-repeat="uom in uoms">
+								<td><a ui-sref="uomDetail({id:uom.id})">{{uom.id}}</a></td>
+								<td>{{uom.parameter_master.parameter_name}}</td>
+								<td>{{uom.value}}</td>
+								<td>
+									<button type="submit" ng-click="showUpdate(uom.id)"
+										class="btn btn-primary btn-sm">
+										<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span>
+											Edit</span>
+									</button>
+									<button type="submit" ng-click="delete(uom.id)"
+										class="btn btn-danger btn-sm">
+										<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>
+											Delete</span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

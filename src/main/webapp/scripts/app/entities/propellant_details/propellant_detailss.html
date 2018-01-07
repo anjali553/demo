@@ -1,0 +1,225 @@
+<div>
+
+	<h2>
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}"
+			close="closeAlert()" dismiss-on-timeout="1000">
+		<h4>
+			<p class="text-center">{{alert.msg}}</p>
+		</h4>
+		</alert>
+		
+		<div>
+			<span>Test Batch No.:{{testBatchCountDTO.testBatchCount}}</span>
+		</div>
+
+		<span>Propellant Details</span>
+		<button type="submit" ng-click="viewAll()"
+			class="btn btn-primary pull-right">
+			<span class="glyphicon glyphicon-eye"></span>&nbsp; <span>View/Edit
+				</span>
+		</button>
+		<!-- <button type="submit"
+			ui-sref="propellant_type_masterForTestBatch({testBatchId:testBatchId,requisitionId:requisitionId})"
+			class="btn btn-primary pull-right">
+			<span>Add Propellant Type</span>
+		</button> -->
+	</h2>
+
+	<form name="editForm" role="form" novalidate ng-submit="save()">
+		<div class="modal-header">
+			<!-- <h4 class="modal-title" id="myPropellant_detailsLabel">Create or
+			edit a Propellant Details with Requisition id {{requisitionId}} and
+			Test Batch id {{testBatchId}}
+			</h4> -->
+		</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title pull-left">Propellant Details</h3>
+			</div>
+			<div class="list-group">
+				<div class="list-group-item">
+					<div class="modal-body">
+						<div class="row">
+							<!-- <div class="col-sm-4">
+					<label>Propellant Type</label> <select class="form-control"
+						name="propellant_type_master"
+						ng-model="propellant_details.propellant_type_master.id"
+						ng-options="propellant_type_master.id as propellant_type_master.propellant_name for propellant_type_master in propellant_type_masters">
+					</select>
+					<div
+						ng-show="editForm.propellant_type_master.$invalid && editForm.propellant_type_master.$dirty || editForm.propellant_type_master.$touched"
+						class="has-error">
+						<p class="help-block"
+							ng-show="editForm.propellant_type_master.$error.required">
+							This field is required.</p>
+					</div> -->
+							<div class="col-md-4">
+								<label>Propellant Type</label> <input type="text"
+									class="form-control" name="propellant_type"
+									ng-model="propellant_details.propellant_type" required>
+								<div
+									ng-show="editForm.propellant_type.$invalid && editForm.propellant_type.$dirty || editForm.propellant_type.$touched"
+									class="has-error">
+									<p class="help-block"
+										ng-show="editForm.propellant_type.$error.required">This
+										field is required.</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<label>Propellant Weight</label> <input type="number"
+									class="form-control" name="weight"
+									ng-model="propellant_details.weight" min="0" required>
+
+								<div
+									ng-show="editForm.weight.$invalid && editForm.weight.$dirty || editForm.weight.$touched"
+									class="has-error">
+									<p class="help-block" ng-show="editForm.weight.$error.required">
+										This field is required.</p>
+									<p class="help-block" ng-show="editForm.weight.$error.number">
+										This field should be a number.</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<label>Unit</label> <select class="form-control"
+									name="weight_uom" ng-model="propellant_details.weight_uom.id"
+									ng-options="uom.id as uom.value for uom in uoms |filter:({parameter_master :{id: 10}})">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="pull-right">
+							<button type="button" class="btn btn-info" ng-click="goBack()">
+								<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>Back
+									to Requisition</span>
+							</button>
+							<button type="button" class="btn btn-warning"
+								ui-sref="motor_detailsForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})">
+								<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span>Back</span>
+							</button>
+
+							<button type="button" class="btn btn-danger" data-dismiss="modal"
+								ng-click="clear()">
+								<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Clear</span>
+							</button>
+							<button type="submit" ng-disabled="editForm.$invalid"
+								class="btn btn-primary">
+								<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+							</button>
+					<!-- 		<button type="submit" class="btn btn-primary"
+								ui-sref="video_detailsForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})"
+								ng-show="testbatchesresult.video_acquisition == true"
+								ng-disabled="editForm.$dirty">
+								ng-disabled="newMotorDetailsId == ''">
+								<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span>
+									Create Video & Photography Details </span>
+							</button> -->
+							
+							<button type="submit" class="btn btn-primary"
+								ui-sref="normal_video_detailsForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})"
+								ng-show="testbatchesresult.video_acquisition == true"
+								ng-disabled="editForm.$dirty">
+								<!-- ng-disabled="newMotorDetailsId == ''" -->
+								<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span>
+									Create Video & Photography Details </span>
+							</button>
+							<button type="submit" class="btn btn-primary"
+								ui-sref="data_presentation_requirementsForTestBatch({testBatchId:testBatchId, requisitionId:requisitionId})"
+								ng-hide="testbatchesresult.video_acquisition == true"
+								ng-disabled="editForm.$dirty">
+								<!-- ng-disabled="newMotorDetailsId == ''"> -->
+								<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span>
+									Create Data Presentation Requirements</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="modal fade" id="deletePropellant_detailsConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form name="deleteForm"
+					ng-submit="confirmDelete(propellant_details.id)">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" ng-click="clear()">Close</button>
+						<h4 class="modal-title">Confirm delete operation</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete this Propellant Details?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							ng-click="clear()">
+							<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						</button>
+						<button type="submit" ng-disabled="deleteForm.$invalid"
+							class="btn btn-danger">
+							<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="viewPropellant_detailsModal" tabindex="-1"
+		role="dialog" aria-labelledby="myPropellant_detailsLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">Close</button>
+					<h4 class="modal-title" id="myPropellant_detailsLabel">View
+						Propellant Detail</h4>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Sr. No.</th>
+									<th>Test Batch</th>
+									<th>Propellant Type</th>
+									<th>Propellant Weight</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody infinite-scroll="loadPage(page + 1)"
+								infinite-scroll-disabled="links['last'] == page">
+								<tr ng-repeat="propellant_details in propellant_detailss">
+									<td>{{$index+1}}</td>
+									<td>{{propellant_details.test_batch.id}}</td>
+									<!-- <td>{{propellant_details.propellant_type_master.propellant_name}}</td> -->
+									<td>{{propellant_details.propellant_type}}</td>
+									<td>{{propellant_details.weight}}&nbsp;{{propellant_details.weight_uom.value}}</td>
+									<td>
+										<button type="submit"
+											ng-click="showUpdate(propellant_details.id)"
+											class="btn btn-primary btn-sm">
+											<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span>
+												Edit</span>
+										</button>
+									</td>
+									<td>
+										<button type="submit" ng-click="delete(propellant_details.id)"
+											class="btn btn-danger btn-sm">
+											<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>
+												Delete</span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,38 @@
+
+<div>
+    <h2><span>Parameter_master</span> {{parameter_master.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Parameter_name</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{parameter_master.parameter_name}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Has_details</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{parameter_master.has_details}}" readonly>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="parameter_master"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>
