@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <!--
+        Added the entity Personal_gatepass.
+    -->
+    <changeSet id="20151224112142" author="jhipster">
+        <createTable tableName="PERSONAL_GATEPASS">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="authority" type="varchar(255)"/>
+            <column name="p_no" type="varchar(255)"/>
+            <column name="t_no" type="varchar(255)"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="designation" type="varchar(255)"/>
+            <column name="from_date" type="timestamp"/>
+            <column name="to_date" type="timestamp"/>
+            <column name="purpose" type="varchar(255)"/>
+            <column name="division_master_id" type="bigint"/>
+            <column name="material_gatepass_id" type="bigint"/>
+        </createTable>
+        <dropDefaultValue tableName="PERSONAL_GATEPASS" columnName="from_date" columnDataType="datetime"/>
+
+        <dropDefaultValue tableName="PERSONAL_GATEPASS" columnName="to_date" columnDataType="datetime"/>
+
+        
+        <addForeignKeyConstraint baseColumnNames="division_master_id"
+                                 baseTableName="PERSONAL_GATEPASS"
+                                 constraintName="fk_personal_gatepass_division_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="DIVISION_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="material_gatepass_id"
+                                 baseTableName="PERSONAL_GATEPASS"
+                                 constraintName="fk_personal_gatepass_material_gatepass_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="MATERIAL_GATEPASS"/>
+
+    </changeSet>
+</databaseChangeLog>

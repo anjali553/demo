@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <!--
+        Added the entity Displacement_calibration.
+    -->
+    <changeSet id="20151223124856" author="jhipster">
+        <createTable tableName="DISPLACEMENT_CALIBRATION">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="calibration_no" type="integer"/>
+            <column name="sensor_slno" type="varchar(255)"/>
+            <column name="date_calibrated" type="date"/>
+            <column name="exc_applied" type="decimal(10,2)"/>
+            <column name="no_of_runs" type="integer"/>
+            <column name="no_of_steps" type="integer"/>
+            <column name="dvm_no" type="integer"/>
+            <column name="dc_volt_src_no" type="integer"/>
+            <column name="configuration" type="varchar(255)"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="displacement_sensors_id" type="bigint"/>
+            <column name="load_unit_id" type="bigint"/>
+            <column name="voltage_unit_id" type="bigint"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseColumnNames="displacement_sensors_id"
+                                 baseTableName="DISPLACEMENT_CALIBRATION"
+                                 constraintName="fk_displacement_calibration_displacement_sensors_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="DISPLACEMENT_SENSORS"/>
+
+        <addForeignKeyConstraint baseColumnNames="load_unit_id"
+                                 baseTableName="DISPLACEMENT_CALIBRATION"
+                                 constraintName="fk_displacement_calibration_load_unit_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="UOM"/>
+
+        <addForeignKeyConstraint baseColumnNames="voltage_unit_id"
+                                 baseTableName="DISPLACEMENT_CALIBRATION"
+                                 constraintName="fk_displacement_calibration_voltage_unit_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="UOM"/>
+
+    </changeSet>
+</databaseChangeLog>

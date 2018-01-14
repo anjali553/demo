@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <!--
+        Added the entity Throat_diameter_detail.
+    -->
+    <changeSet id="20150826072601" author="jhipster">
+        <createTable tableName="THROAT_DIAMETER_DETAIL">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="throat_dia_individual" type="decimal(10,2)"/>
+            <column name="uom_id" type="bigint"/>
+            <column name="motor_details_id" type="bigint"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseColumnNames="uom_id"
+                                 baseTableName="THROAT_DIAMETER_DETAIL"
+                                 constraintName="fk_throat_diameter_detail_uom_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="UOM"/>
+
+        <addForeignKeyConstraint baseColumnNames="motor_details_id"
+                                 baseTableName="THROAT_DIAMETER_DETAIL"
+                                 constraintName="fk_throat_diameter_detail_motor_details_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="MOTOR_DETAILS"/>
+
+    </changeSet>
+</databaseChangeLog>

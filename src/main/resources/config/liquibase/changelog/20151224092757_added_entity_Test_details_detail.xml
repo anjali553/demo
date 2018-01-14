@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <!--
+        Added the entity Test_details_detail.
+    -->
+    <changeSet id="20151224092757" author="jhipster">
+        <createTable tableName="TEST_DETAILS_DETAIL">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="parameter_name" type="varchar(255)"/>
+            <column name="adc_channel_no" type="integer"/>
+            <column name="sensor_no" type="integer"/>
+            <column name="calibration_no" type="integer"/>
+            <column name="cable_no" type="integer"/>
+            <column name="test_details_id" type="bigint"/>
+            <column name="system_details_master_id" type="bigint"/>
+            <column name="hardware_details_master_id" type="bigint"/>
+            <column name="parameter_type_id" type="bigint"/>
+            <column name="gain_master_id" type="bigint"/>
+            <column name="ia_no_master_id" type="bigint"/>
+            <column name="bandwidth_master_id" type="bigint"/>
+            <column name="excitation_master_id" type="bigint"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseColumnNames="test_details_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_test_details_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="TEST_DETAILS"/>
+
+        <addForeignKeyConstraint baseColumnNames="system_details_master_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_system_details_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="SYSTEM_DETAILS_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="hardware_details_master_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_hardware_details_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="HARDWARE_DETAILS_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="parameter_type_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_parameter_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="PARAMETER_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="gain_master_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_gain_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="GAIN_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="ia_no_master_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_ia_no_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="IA_NO_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="bandwidth_master_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_bandwidth_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="BANDWIDTH_MASTER"/>
+
+        <addForeignKeyConstraint baseColumnNames="excitation_master_id"
+                                 baseTableName="TEST_DETAILS_DETAIL"
+                                 constraintName="fk_test_details_detail_excitation_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="EXCITATION_MASTER"/>
+
+    </changeSet>
+</databaseChangeLog>

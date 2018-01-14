@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql"/>
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <!--
+        Added the entity Measurement_plan_details.
+    -->
+    <changeSet id="20151014072237" author="jhipster">
+        <createTable tableName="MEASUREMENT_PLAN_DETAILS">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="parameters" type="varchar(255)"/>
+            <column name="requirement" type="integer"/>
+            <column name="provided" type="integer"/>
+            <column name="no_of_das_used" type="integer"/>
+            <column name="instrumentation_measurement_plan_id" type="bigint"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseColumnNames="instrumentation_measurement_plan_id"
+                                 baseTableName="MEASUREMENT_PLAN_DETAILS"
+                                 constraintName="fk_measurement_plan_details_instrumentation_measurement_plan_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="INSTRUMENTATION_MEASUREMENT_PLAN"/>
+
+    </changeSet>
+</databaseChangeLog>
